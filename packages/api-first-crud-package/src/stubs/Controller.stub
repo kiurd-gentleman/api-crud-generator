@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\{{modelName}};
+use Illuminate\Http\Request;
+
+class {{modelName}}Controller extends Controller
+{
+    public function index()
+    {
+        return {{modelName}}::all();
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            // Validation rules
+        ]);
+
+        return {{modelName}}::create($request->all());
+    }
+
+    public function show($id)
+    {
+        return {{modelName}}::find($id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            // Validation rules
+        ]);
+
+        $model = {{modelName}}::findOrFail($id);
+        $model->update($request->all());
+
+        return $model;
+    }
+
+    public function destroy($id)
+    {
+        {{modelName}}::destroy($id);
+
+        return response()->noContent();
+    }
+}
