@@ -9,12 +9,17 @@ class ApiCrudServiceProvider extends ServiceProvider
 {
     public function register()
     {
-
+        $this->commands([
+            ApiCrudGeneratorCommand::class,
+        ]);
     }
 
     public function boot()
     {
-        dd('Hello from ApiCrudServiceProvider');
+//        dd(base_path('stubs'));
+//        $this->publishes([
+//            __DIR__.'/../stub' => base_path('stubs'),
+//        ]);
 
     }
 }
