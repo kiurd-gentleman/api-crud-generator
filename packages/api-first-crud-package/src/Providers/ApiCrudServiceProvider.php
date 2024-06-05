@@ -17,7 +17,7 @@ class ApiCrudServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../stubs' => base_path('stubs/crud-generator'),
+            __DIR__ . '/../stubs' => resource_path('stubs/crud-generator'),
         ], 'stubs');
     }
 }
