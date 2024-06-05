@@ -18,7 +18,7 @@ class ApiCrudGeneratorCommand extends Command
 
         $this->generateModel($folderAndFile['name'], $folderAndFile['folder']);
 //        $this->generateMigration($folderAndFile['name']);
-        $this->generateController($folderAndFile['name'], $folderAndFile['folder']);
+//        $this->generateController($folderAndFile['name'], $folderAndFile['folder']);
 //        $this->generateRequest($folderAndFile['name'], $folderAndFile['folder']);
 //        $this->generateRoutes($folderAndFile['name'], $folderAndFile['folder']);
     }
