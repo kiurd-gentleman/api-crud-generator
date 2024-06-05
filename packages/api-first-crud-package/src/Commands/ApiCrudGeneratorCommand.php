@@ -14,45 +14,27 @@ class ApiCrudGeneratorCommand extends Command
     {
         $name = $this->argument('name');
 
-        // find file name and folder name
         $folderAndFile = $this->findFolderPathAndFileName($name);
 
-        dd($folderAndFile);
-
-        $this->generateModel($folderAndFile);
-//        $this->generateMigration($name);
-//        $this->generateController($name);
-//        $this->generateRequest($name);
-//        $this->generateRoutes($name);
+        $this->generateModel($folderAndFile['name'], $folderAndFile['folder']);
+//        $this->generateMigration($folderAndFile['name']);
+        $this->generateController($folderAndFile['name'], $folderAndFile['folder']);
+//        $this->generateRequest($folderAndFile['name'], $folderAndFile['folder']);
+//        $this->generateRoutes($folderAndFile['name'], $folderAndFile['folder']);
     }
-
-    protected function findFolderPathAndFileName($name){
-
-        $folder = explode('/', $name);
-        if (count($folder) > 1) {
-            $name = end($folder);
-            $folder = array_slice($folder, 0, -1);
-            $folder = implode('/', $folder);
-            $this->createFolder($folder);
-
-            return [
-                'name' => $name,
-                'folder' => $folder
-            ];
-        }
-
-    }
-
-    protected function generateModel($name)
+    protected function generateModel($name, $folder)
     {
-        $info = $this->makeFolder($name);
         $modelTemplate = str_replace(
-            ['{{modelName}}'],
-            [$info['name']],
+            ['{{modelName}}' , '{{folderName}}'],
+            [$name, Str::replace('/','\\', $folder)],
             $this->getStub('Model')
         );
 
-        file_put_contents(app_path("/Models/{$info['folder']}/{$info['name']}.php"), $modelTemplate);
+        if (!file_exists(app_path("/Models/{$folder}"))) {
+            mkdir(app_path("/Models/{$folder}"), 0777, true);
+        }
+
+        file_put_contents(app_path("/Models/{$folder}/{$name}.php"), $modelTemplate);
 
     }
 
@@ -71,7 +53,7 @@ class ApiCrudGeneratorCommand extends Command
         file_put_contents(database_path("/migrations/{$migrationName}"), $migrationTemplate);
     }
 
-    protected function generateController($name)
+    protected function generateController($name, $folder)
     {
         $controllerTemplate = str_replace(
             ['{{modelName}}', '{{modelNamePluralLowerCase}}'],
@@ -79,10 +61,14 @@ class ApiCrudGeneratorCommand extends Command
             $this->getStub('Controller')
         );
 
-        file_put_contents(app_path("/Http/Controllers/{$name}Controller.php"), $controllerTemplate);
+        if (!file_exists(app_path("/Http/Controllers/{$folder}"))) {
+            mkdir(app_path("/Http/Controllers/{$folder}"), 0777, true);
+        }
+
+        file_put_contents(app_path("/Http/Controllers/{$folder}/{$name}Controller.php"), $controllerTemplate);
     }
 
-    protected function generateRequest($name)
+    protected function generateRequest($name, $folder)
     {
         $requestTemplate = str_replace(
             ['{{modelName}}'],
@@ -90,19 +76,18 @@ class ApiCrudGeneratorCommand extends Command
             $this->getStub('Request')
         );
 
-        //if Request folder does not exist, create it
-        if (!file_exists(app_path("/Http/Requests"))) {
-            mkdir(app_path("/Http/Requests"));
+        if (!file_exists(app_path("/Http/Requests/{$folder}"))) {
+            mkdir(app_path("/Http/Requests/{$folder}"), 0777, true);
         }
 
-        file_put_contents(app_path("/Http/Requests/{$name}Request.php"), $requestTemplate);
+        file_put_contents(app_path("/Http/Requests/{$folder}/{$name}Request.php"), $requestTemplate);
     }
 
-    protected function generateRoutes($name)
+    protected function generateRoutes($name, $folder)
     {
         $routesTemplate = str_replace(
             ['{{modelNamePluralLowerCase}}', '{{modelName}}'],
-            [strtolower(Str::plural($name)), $name],
+            [strtolower(Str::plural($name)), Str::replace('/','\\',$folder.'\\'.$name)],
             $this->getStub('Routes')
         );
 
@@ -111,22 +96,21 @@ class ApiCrudGeneratorCommand extends Command
 
     protected function getStub($type)
     {
-//        dd(app_path("packages/api-first-crud-package/src/stubs/$type.stub"));
-        return file_get_contents(base_path("packages/api-first-crud-package/src/stubs/$type.stub"));
+        return file_get_contents(__DIR__ . "/../stubs/$type.stub");
     }
 
-    protected function makeFolder($name)
+    protected function findFolderPathAndFileName($name)
     {
+
         $folder = explode('/', $name);
         if (count($folder) > 1) {
             $name = end($folder);
             $folder = array_slice($folder, 0, -1);
             $folder = implode('/', $folder);
-            $this->createFolder($folder);
 
             return [
                 'name' => $name,
-                'folder' => $folder
+                'folder' => '/'.$folder
             ];
         }
         return [
@@ -134,14 +118,6 @@ class ApiCrudGeneratorCommand extends Command
             'folder' => ''
 
         ];
-
-    }
-
-    protected function createFolder($folder)
-    {
-        if (!file_exists(app_path("/Models/{$folder}"))) {
-            mkdir(app_path("/Models/{$folder}"), 0777, true);
-        }
     }
 
 }
