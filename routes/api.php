@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\hrhhhController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::apiResource('hellos', App\Http\Controllers\HelloController::class);
 Route::apiResource('hello2s', App\Http\Controllers\Hello2Controller::class);
+Route::apiResource('hrhhhs', hrhhhController::class);
