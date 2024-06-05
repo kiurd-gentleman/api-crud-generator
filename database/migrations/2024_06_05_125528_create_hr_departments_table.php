@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('hrhhhs', function (Blueprint $table) {
+        Schema::create('hr_departments', function (Blueprint $table) {
             $table->id();
             // Add your columns
             $table->timestamps();
@@ -17,6 +17,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('hrhhhs');
+        Schema::dropIfExists('hr_departments');
     }
 };

@@ -1,9 +1,9 @@
-<?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAdminRequest;
+use App\Http\Requests\UpdateAdminRequest;
+use Illuminate\Http\Response;
 
 class AdminController extends Controller
 {
@@ -12,36 +12,25 @@ class AdminController extends Controller
         return Admin::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreAdminRequest $request)
     {
-        $request->validate([
-            // Validation rules
-        ]);
-
-        return Admin::create($request->all());
+        return Admin::create($request->validated());
     }
 
-    public function show($id)
+    public function show(Admin $Admin)
     {
-        return Admin::find($id);
+        return $Admin;
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateAdminRequest $request, Admin $Admin)
     {
-        $request->validate([
-            // Validation rules
-        ]);
-
-        $model = Admin::findOrFail($id);
-        $model->update($request->all());
-
-        return $model;
+        $Admin->update($request->validated());
+        return $Admin;
     }
 
-    public function destroy($id)
+    public function destroy(Admin $Admin)
     {
-        Admin::destroy($id);
-
-        return response()->noContent();
+        $Admin->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Admin5;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class hello extends Model
+class Admin6 extends Model
 {
     protected $fillable = [
         // Add your fillable fields

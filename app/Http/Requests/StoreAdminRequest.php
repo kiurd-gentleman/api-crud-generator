@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class hrhhhRequest extends FormRequest
+class StoreAdminRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,7 +14,7 @@ class hrhhhRequest extends FormRequest
     public function rules()
     {
         return [
-            // Validation rules
+            // Add your validation rules here
         ];
     }
 }

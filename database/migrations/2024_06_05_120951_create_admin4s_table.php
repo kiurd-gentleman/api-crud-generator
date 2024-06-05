@@ -4,19 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class Createadmin4sTable extends Migration
 {
     public function up()
     {
-        Schema::create('hrhhhs', function (Blueprint $table) {
+        Schema::create('admin4s', function (Blueprint $table) {
             $table->id();
-            // Add your columns
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('hrhhhs');
+        Schema::dropIfExists('admin4s');
     }
-};
+}
