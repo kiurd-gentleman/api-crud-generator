@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class {{modelName}} extends Model
+class Admin4 extends Model
 {
     protected $fillable = [
         // Add your fillable fields

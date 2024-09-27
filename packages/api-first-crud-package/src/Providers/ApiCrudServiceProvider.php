@@ -12,13 +12,12 @@ class ApiCrudServiceProvider extends ServiceProvider
         $this->commands([
             ApiCrudGeneratorCommand::class,
         ]);
-
     }
 
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../stubs' => base_path('stubs/crud-generator'),
+            __DIR__ . '/../stubs' => resource_path('stubs/crud-generator'),
         ], 'stubs');
     }
 }

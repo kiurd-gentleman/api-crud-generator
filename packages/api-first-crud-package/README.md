@@ -2,22 +2,9 @@
 
 ## Installation process
 
-1. Composer install
-```bash
-composer install
-```
-after that copy the .env.example file to .env and set the database credentials
-
-```bash
-cp .env.example .env
-```
-after that generate the key
-```bash
-php artisan key:generate
-```
 for the technical task package we need to install the package
 ```bash
-composer require krimt/api-first-crud-package
+composer require krimt/kiurd-crud-generator
 ```
 For resource publish run the following command
 ```bash
